@@ -1,4 +1,4 @@
 public interface MySem {
-    public void P() throws InterruptedException ;
-    public void V() throws InterruptedException ;
+    void P() throws InterruptedException ;
+    void V();
 }

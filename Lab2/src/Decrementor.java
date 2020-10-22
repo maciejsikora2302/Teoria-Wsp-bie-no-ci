@@ -19,11 +19,8 @@ public class Decrementor extends Thread{
             System.out.print("-");
             a -= 1;
 
-            try {
-                sem.V();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sem.V();
+
         }
     }
 }

@@ -1,15 +1,17 @@
-public class Incrementor extends Thread{
+public class Incrementor extends Thread {
     private Integer a;
     private final MySem sem;
     private final int times;
-    public Incrementor(Integer a, MySem semaphore, int times){
+
+    public Incrementor(Integer a, MySem semaphore, int times) {
         this.a = a;
         this.sem = semaphore;
         this.times = times;
     }
+
     @Override
     public void run() {
-        for(int i=0;i<times;i++){
+        for (int i = 0; i < times; i++) {
             try {
                 sem.P();
             } catch (InterruptedException e) {
@@ -19,11 +21,9 @@ public class Incrementor extends Thread{
             System.out.print("+");
             a += 1;
 
-            try {
-                sem.V();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+            sem.V();
+
         }
     }
 }

@@ -12,7 +12,7 @@ public class CountingSemaphore implements MySem{
         innerCounter -= 1;
     }
 
-    synchronized public void V() throws InterruptedException {
+    synchronized public void V(){
         innerCounter += 1;
         notifyAll();
     }
