@@ -2,7 +2,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class BufforZad2 implements GeneralBuffor{
+public class OptimalBuffor implements GeneralBuffor{
     private int size;
     private int free;
     private int taken;
@@ -10,16 +10,16 @@ public class BufforZad2 implements GeneralBuffor{
     private Condition producerLock = lock.newCondition();
     private Condition consumerLock = lock.newCondition();
     private boolean print;
-    public BufforZad2(int size, boolean print){
-        this.size = 2*size;
+    public OptimalBuffor(int size, boolean print){
+        this.size = 4*size;
         this.free = 2*size;
-        this.taken = 0;
+        this.taken = 2*size;
         this.print = print;
     }
 
     public boolean put(int howMuch) throws InterruptedException {
         lock.lock();
-        while(this.free <= howMuch){
+        while(this.free <= howMuch && this.taken <= this.size/2){
             producerLock.await();
         }
         if(print) System.out.printf("Producer was able to put %d, and before he did there was %d taken and %d free\n", howMuch, taken, free);
@@ -32,7 +32,7 @@ public class BufforZad2 implements GeneralBuffor{
 
     public boolean get(int howMuch) throws InterruptedException {
         lock.lock();
-        while (this.taken <= howMuch){
+        while (this.taken <= howMuch && this.taken >= this.size/2){
             consumerLock.await();
         }
         if(print) System.out.printf("Consumer was able to get %d, and before he did there was %d taken and %d free\n", howMuch, taken, free);

@@ -1,19 +1,40 @@
+import java.math.BigInteger;
+
 public class FatConsumer extends Thread{
     private int value;
-    private BufforZad2 buffor;
-    public FatConsumer(BufforZad2 buffor, int fatness){
+    private GeneralBuffor buffor;
+    private int timesToRepeat;
+    private BigInteger sum = new BigInteger("0");
+    private BigInteger div = new BigInteger("0");
+    public FatConsumer(GeneralBuffor buffor, int fatness, int timesToRepeat){
         this.value = fatness;
         this.buffor = buffor;
+        this.timesToRepeat = timesToRepeat;
     }
 
     @Override
     public void run() {
-        while (true) {
+
+        for(int i=0;i<this.timesToRepeat;i++){
+            long start = System.nanoTime();
             try {
                 this.buffor.get(this.value);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            long end = System.nanoTime();
+            sum = sum.add(new BigInteger(String.valueOf(end-start)));
+            div = div.add(BigInteger.ONE);
+//            System.out.printf("FatConsumer with fatness %d took %sns. Current average %d.\n", this.value, end-start, sum.divide(div));
         }
+    }
+
+    public BigInteger getAvg(){
+        return this.sum.divide(this.div);
+    }
+
+
+    public int getValue() {
+        return value;
     }
 }
