@@ -12,11 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main2 {
     public static void main(String[] arg) throws InterruptedException, IOException, PythonExecutionException {
         int buffSize = 1000;
-        int numberOfProducers = 5;
-        int numberOfConsumers = 5;
+        int numberOfProducers = 100;
+        int numberOfConsumers = 100;
         int times_to_repeat = 1000;
 
-        BufforZad2 buffor = new BufforZad2(buffSize, true);
+        BufforZad2 buffor = new BufforZad2(buffSize, false);
         OptimalBuffor buffor2 = new OptimalBuffor(buffSize, false);
 
         ArrayList<FatProducer> producers = new ArrayList<>();
@@ -27,9 +27,9 @@ public class Main2 {
 
 //        for(int i=0;i<numberOfProducers;i++) producers.add(new FatProducer(buffor2, ThreadLocalRandom.current().nextInt(1, buffSize + 1), times_to_repeat));
 //        for(int i=0;i<numberOfConsumers;i++) consumers.add(new FatConsumer(buffor2, ThreadLocalRandom.current().nextInt(1, buffSize + 1), times_to_repeat));
-
-//        for(int i=1;i<=numberOfProducers;i++) producers.add(new FatProducer(buffor2, (i*5)%buffSize, times_to_repeat));
-//        for(int i=1;i<=numberOfConsumers;i++) consumers.add(new FatConsumer(buffor2, (i*5)%buffSize, times_to_repeat));
+//
+//        for(int i=1;i<=numberOfProducers;i++) producers.add(new FatProducer(buffor, (i*5)%buffSize, times_to_repeat));
+//        for(int i=1;i<=numberOfConsumers;i++) consumers.add(new FatConsumer(buffor, (i*5)%buffSize, times_to_repeat));
 
         for(int i=0;i<numberOfProducers;i++) producers.get(i).start();
         for(int i=0;i<numberOfConsumers;i++) consumers.get(i).start();
