@@ -15,7 +15,11 @@ public class Mandelbrot extends JFrame {
 
     public Mandelbrot() throws ExecutionException, InterruptedException {
         super("Mandelbrot Set");
+        concurrencyPerPixel();
 
+    }
+
+    private void concurrencyPerPixel() throws ExecutionException, InterruptedException {
         MandelbrotOriginal original = new MandelbrotOriginal();
         original.setVisible(false);
 
