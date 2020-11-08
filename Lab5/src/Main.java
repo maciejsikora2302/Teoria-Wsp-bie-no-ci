@@ -1,9 +1,26 @@
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-public class Mandelbrot{
-    public void perPixelSolution(int MAX_ITER, double ZOOM, int threads){
+public class Main {
+
+    private static final int MAX_ITER = 570;
+    private static final double ZOOM = 150;
+
+    public static void main(String[] args){
+
+        MandelbrotOriginal original = new MandelbrotOriginal();
+        original.setVisible(false);
+        long originalTime = original.operationTime/1000000;
+        long perPixelTime = perPixelSolution(12, false)/1000000;
+        System.out.printf("Perpixel time(%dms), original time(%dms), difference (negative is time gain): %dms", perPixelTime, originalTime, perPixelTime-originalTime);
+
+    }
+
+    public static long perPixelSolution(int threads, boolean visibility){
+        long start = System.nanoTime();
         ExecutorService pool = Executors.newFixedThreadPool(threads);
         Set<Future<Object>> tasks = new HashSet<>();
         MandelbrotTable table = new MandelbrotTable();
@@ -32,17 +49,14 @@ public class Mandelbrot{
                 System.out.printf("Doing while loop for the %s time.\n", loopRepeated);
             }
         }
-
+        long end = System.nanoTime();
 
         table.drawPicture();
-        table.setVisible(true);
+        table.setVisible(visibility);
         pool.shutdown();
+
+        return end-start;
     }
 
-    public static void main(String[] args){
-        final int MAX_ITER = 570;
-        final double ZOOM = 150;
-//        perPixelSolution(MAX_ITER, ZOOM, 12);
 
-    }
 }

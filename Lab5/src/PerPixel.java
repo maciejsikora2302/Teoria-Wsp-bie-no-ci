@@ -1,7 +1,8 @@
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
-public class IsInMandelbrotSetPixel implements Callable {
+public class PerPixel implements Runnable {
+
+    private MandelbrotTable table;
     private double zx;
     private double zy;
     private final double cX;
@@ -9,26 +10,26 @@ public class IsInMandelbrotSetPixel implements Callable {
     private int iter;
     public int x;
     public int y;
-    public IsInMandelbrotSetPixel(int x, int y, int MAX_ITER, double ZOOM){
+
+    public PerPixel(MandelbrotTable table, int x, int y, int MAX_ITER, double ZOOM){
         this.x= x;
         this.y = y;
+        this.table = table;
         zx = zy = 0;
         cX = (x - 400) / ZOOM;
         cY = (y - 300) / ZOOM;
         iter = MAX_ITER;
     }
+
+
     @Override
-    public ArrayList<Integer> call() throws Exception {
+    public void run() {
         while (zx * zx + zy * zy < 4 && iter > 0) {
             double tmp = zx * zx - zy * zy + cX;
             zy = 2.0 * zx * zy + cY;
             zx = tmp;
             iter--;
         }
-        ArrayList<Integer> toRet = new ArrayList<>();
-        toRet.add(this.x);
-        toRet.add(this.y);
-        toRet.add(iter | (iter << 8));
-        return toRet;
+        table.setPixelIncluded(x, y, (iter|iter<<8));
     }
 }
