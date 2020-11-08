@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class PerPixel implements Runnable {
 
-    private MandelbrotTable table;
+    private final MandelbrotTable table;
     private double zx;
     private double zy;
     private final double cX;

@@ -10,9 +10,15 @@ public class MandelbrotTable extends JFrame {
 
     public MandelbrotTable(){
         super("Mandelbrot Set");
+        for(int i=0; i< y; i++){
+            for(int j = 0 ; j<x;j++){
+                setPixelIncluded(j,i,1234512);
+            }
+        }
     }
 
     public void setPixelIncluded(int x, int y, int value){
+//        System.out.printf("\nX: %d, Y: %d, val: %d",x , y, value);
         pixelIncluded[x][y] = value;
     }
 
