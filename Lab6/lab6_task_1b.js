@@ -26,6 +26,10 @@ function p2(to_print, after){
     console.log(to_print%3+1)
     after(null, to_print+1)
 }
+function p3(to_print, after){
+    console.log("done")
+    // after(null, to_print+1)
+}
 
 // var functions = [p, p2, p2]
 
@@ -46,6 +50,10 @@ function loop(n){
         fun.push(p2)
         fun.push(p2)
     }
+    fun.push(p2)
+    fun.push(p2)
+    fun.push(p2)
+    fun.push(p3)
     async.waterfall(fun, function (err) {
         if (err) throw new Error(err);
         // console.log("something went wrong")
